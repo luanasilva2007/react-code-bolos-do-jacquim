@@ -1,7 +1,8 @@
 export interface Bolo {
     nome: string;
+    descricao: string;
     id: string | undefined;
-    caegoria: string[];
+    categoria: string[];
     imagens: string[];
     preco: number;
     peso: number | null;
