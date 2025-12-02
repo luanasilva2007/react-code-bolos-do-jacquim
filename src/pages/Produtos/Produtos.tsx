@@ -5,13 +5,12 @@ import watsahpp from '../../assets/whatsapp.png';
 import { useEffect, useState } from 'react';
 import type { Bolo } from '../../types/bolo';
 import { getBolos } from '../../services/bolosServices';
-import bolo_defult from '../../assets/imgs/bolo-default.png';
 import CardProduto from '../../components/CardProduto/CardProduto';
 import Carrossel from '../../components/Carrossel/Carrossel';
 import Header from '../../components/Header/Header';
 import { useLocation, useParams } from 'react-router-dom';
 import Footer from '../../components/Footer/Footer';
-import jacquin from '../../assets/jacquin-not-found.png';
+import jacquin404 from '../../assets/jacquin-not-found.png';
 
 export default function Produtos() {
 
@@ -90,6 +89,14 @@ export default function Produtos() {
                                     peso={b.peso}
                                 />
                             ))
+                        }
+
+                        {
+                            bolos.length == 0 &&
+                            <div className='jacquin404'>
+                                <h3>O termo pesquisado <br />não foi encontrado</h3>
+                                 <img src={jacquin404} alt="foto_termo_nao_encontrado" />
+                            </div>
                         }
 
 

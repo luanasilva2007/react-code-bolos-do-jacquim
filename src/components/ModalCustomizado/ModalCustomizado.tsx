@@ -1,8 +1,8 @@
 import { Modal } from 'react-bootstrap'
-import './ModalCustomizadoProps.css'
-import type { ModalCustomizadoProps } from '../../types/ModaCustomizadoProps'
+import './ModalCustomizado.css'
+import type { ModalCustomizadoProps } from '../../types/ModalCustomizadoProps'
 
-export default function ModalCustomizadoProps({
+export default function ModalCustomizado({
     mostrarModalquando,
     aoCancelar,
     exibirConteudoCentralizado,

@@ -1,6 +1,5 @@
 .card_categoria {
     margin: 50px 0;
-    background-color: black;
     width: 260px;
     height: 360px;
     display: block;
@@ -25,8 +24,8 @@
     background: linear-gradient(180deg, rgba(10, 37, 210, 1) 0%, rgba(5, 19, 108, 1) 100%);
 }
 
-.card_morangos {
-    background: linear-gradient(180deg, rgba(164, 9, 9, 1) 0%, rgba(62, 3, 3, 1) 100%);
+.card_morango {
+    background: linear-gradient(180deg, rgb(164, 9, 9) 0%, rgba(62, 3, 3, 1) 100%);
 }
 
 .card_natal {
