@@ -128,6 +128,20 @@
       "id": "8jy2",
       "preco": 42,
       "peso": 1.3
+    },
+    {
+      "nome": "floresta negra",
+      "descricao": "linda por fora uma delicia por dentro uma mordida e voce delira",
+      "preco": 1518,
+      "peso": 1518,
+      "categorias": [
+        "chocolate",
+        "cafe"
+      ],
+      "imagens": [
+        "1764791774396.jpg"
+      ],
+      "id": "GL0RdI5"
     }
   ]
 }

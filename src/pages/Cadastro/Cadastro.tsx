@@ -3,7 +3,7 @@ import Footer from '../../components/Footer/Footer'
 import Header from '../../components/Header/Header'
 import './Cadastro.css'
 import type { Bolo } from '../../types/bolo';
-import { deleteBolo, getBolos } from '../../services/bolosServices';
+import { deleteBolo, enviarFotoParaApi, getBolos, postBolo } from '../../services/bolosServices';
 import { FormatosService } from '../../services/FormatosService';
 import ModalCustomizado from '../../components/ModalCustomizado/ModalCustomizado';
 import { NumericFormat } from 'react-number-format';
@@ -63,16 +63,65 @@ export default function Cadastro() {
 
     const carregarImagem = (img: ChangeEvent<HTMLInputElement>) => {
         const file = img.target.files?.[0];
+
         if (file?.type.includes("image")) {
             setImagem(file);
             setBgImageInputColor(" #5cb85c");
-        }
-        else {
+
+        } else {
             setImagem(undefined);
             setBgImageInputColor(" #ff2c2c")
         }
     }
 
+    const limparDados = () => {
+        setNomeBolo("");
+        setCategorias("");
+        setImagem(undefined);
+        setPreco(undefined);
+        setPeso(undefined);
+        setDescricao("");
+        setBgImageInputColor(" #ffffff");
+    }
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        if (!nomeBolo || !categorias || !preco) {
+            exibirModalDeErroOuSucesso("Campos obrigatorios", "Preencha o nome, categorias e preço do bolo");
+            return;
+        }
+
+        let uploadedFileName: string | undefined;
+
+        if (imagem) {
+            uploadedFileName = await enviarFotoParaApi(imagem);
+
+            if (!uploadedFileName) {
+                exibirModalDeErroOuSucesso("Erro", "Cadastro cancelado por falha no upload da imagem.");
+                return;
+            }
+        }
+
+        const novoBolo: Bolo = {
+            id: undefined,
+            nome: nomeBolo,
+            descricao: descricao,
+            preco: preco,
+            peso: peso ?? null,
+            categorias: categorias.toLocaleLowerCase().split(",").map(c => c.trim()),
+            imagens: uploadedFileName ? [uploadedFileName] : []
+        }
+
+        try {
+            await postBolo(novoBolo);
+            exibirModalDeErroOuSucesso("Sucesso", "Novo bolo cadastrado com sucesso!")
+            fetchBolos();
+            limparDados();
+        } catch (error) {
+            exibirModalDeErroOuSucesso("Erro", "Erro ao cadastrar o novo bolo");
+        }
+    }
 
     useEffect(() => {
         fetchBolos();
@@ -86,7 +135,7 @@ export default function Cadastro() {
             <main>
                 <h1 className="acessivel">tela de cadastro e listagem de produtos</h1>
 
-                <section className="container_cadastro">
+                <form onSubmit={handleSubmit} className="container_cadastro">
                     <h2>Cadastro</h2>
                     <hr />
 
@@ -118,7 +167,7 @@ export default function Cadastro() {
                                 <div className="img">
                                     <label htmlFor="img">
                                         <span>Imagem</span>
-                                        <div>
+                                        <div style={{ backgroundColor: BgImageInputColor }}>
                                             <svg xmlns="http://www.w3.org/2000/svg"
                                                 viewBox="0 0 448 512">
                                                 <path fill="currentColor"
@@ -180,15 +229,15 @@ export default function Cadastro() {
                             <label htmlFor="desc">Descrição</label>
                             <textarea
                                 id="desc"
-                                maxLength={ 200}
+                                maxLength={200}
                                 placeholder='Escreva detalhes sobre o bolo'
                                 value={descricao}
                                 onChange={d => setDescricao(d.target.value)}
                             />
                         </div>
                     </div>
-                    <button className='botaosubmit' type='submit'>cadastrar</button>
-                </section>
+                    <button className='botaoSubmit' type='submit'>cadastrar</button>
+                </form>
 
                 <section className="container_lista">
                     <h2>Lista</h2>
